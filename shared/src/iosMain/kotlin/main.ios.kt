@@ -9,12 +9,15 @@ import platform.UIKit.UIViewController
 actual fun getPlatformName(): String = "iOS"
 
 fun MainViewController(
-    createScanbotBarcodeView: () -> UIViewController,
+    createScanbotBarcodeView: ((String) -> Unit) -> UIViewController,
 ) = ComposeUIViewController {
     App(
-        // TODO: Process callback
-        createBarcodeScannerView = {
-            ScanbotBarcodeView { createScanbotBarcodeView() }
+        createBarcodeScannerView = { onBarcodeScannedCallback ->
+            ScanbotBarcodeView {
+                createScanbotBarcodeView { barcode ->
+                    onBarcodeScannedCallback.onBarcodeScanned(barcode)
+                }
+            }
         }
     )
 }

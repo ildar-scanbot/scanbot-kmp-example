@@ -18,17 +18,19 @@ fun App(
     MaterialTheme {
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             var showContent by remember { mutableStateOf(false) }
-            var text by remember { mutableStateOf("") }
+            var resultText by remember { mutableStateOf("") }
             Button(onClick = {
                 showContent = !showContent
             }) {
                 Text("Open Barcode Scanner")
             }
+            Text(resultText)
             if (showContent) {
-                Text(text)
                 createBarcodeScannerView(object : OnBarcodeScanned {
                     override fun onBarcodeScanned(barcode: String) {
-                        text = barcode
+                        resultText = barcode
+                        // TODO: If want to hide view after scanning:
+                        // showContent = false
                     }
                 })
             }
