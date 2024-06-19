@@ -6,12 +6,15 @@ import io.scanbot.sdk.ui_v2.barcode.BarcodeScannerView
 import io.scanbot.sdk.ui_v2.barcode.configuration.BarcodeNativeConfiguration
 import io.scanbot.sdk.ui_v2.barcode.configuration.BarcodeScannerConfiguration
 import io.scanbot.sdk.ui_v2.barcode.configuration.LocalScanbotNativeConfiguration
+import io.scanbot.sdk.ui_v2.common.TopBarMode
 
 actual fun getPlatformName(): String = "Android"
 
 @Composable
 fun ScanbotBarcodeView(onBarcodeScannedCallback: OnBarcodeScanned) {
     val configuration = BarcodeScannerConfiguration()
+    // TODO: uncomment to hide the top bar
+    // configuration.topBar.mode = TopBarMode.HIDDEN
     CompositionLocalProvider(
         LocalScanbotNativeConfiguration provides BarcodeNativeConfiguration(
             enableContinuousScanning = true
@@ -23,6 +26,7 @@ fun ScanbotBarcodeView(onBarcodeScannedCallback: OnBarcodeScanned) {
                 onBarcodeScannedCallback.onBarcodeScanned(it.items.first().text)
             },
             onBarcodeScannerClosed = {
+                onBarcodeScannedCallback.onBarcodeScannerClosed()
             }
         )
     }

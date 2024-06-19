@@ -32,6 +32,10 @@ fun App(
                         // TODO: If want to hide view after scanning:
                         // showContent = false
                     }
+
+                    override fun onBarcodeScannerClosed() {
+                        showContent = false
+                    }
                 })
             }
         }
@@ -40,6 +44,7 @@ fun App(
 
 interface OnBarcodeScanned {
     fun onBarcodeScanned(barcode: String)
+    fun onBarcodeScannerClosed()
 }
 
 
